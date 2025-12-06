@@ -666,30 +666,26 @@ p {
   position: relative;
   top: -5px;
 }
-
+/* ========== CONTACT WA FOLLOW SERVICE STYLE ========== */
 .contact-wa.single-service {
-	position: fixed;     
-	bottom: 25px;        
-	right: 0px;          
-	background: none;     
-	padding: 0;           
-	margin: 0;            
-	box-shadow: none;     
-	border-radius: 0;     
-	z-index: 9999;        
+	text-align: center;
+	padding: 50px 30px;
+	border-radius: 10px;
+	background: #fff;
+	margin-bottom: 30px;
+	transition: all 0.3s ease-out;
 }
 
 .contact-wa .icon {
-	width: 70px;
-	height: 70px;
+	background: #98f6a6;
 	border-radius: 50%;
+	width: 95px;
+	height: 95px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background: #25D366;
-	box-shadow: 0 6px 15px rgba(0,0,0,0.25);
-	transition: 0.3s;
-	cursor: pointer;
+	margin: auto;
+	transition: all 0.3s ease-out;
 }
 
 .contact-wa:hover .icon {
@@ -714,8 +710,8 @@ p {
   background: #25D366;
   border-radius: 50%;
   display: flex;
-  justify-content: right;
-  align-items: right;
+  justify-content: center;
+  align-items: center;
   box-shadow: 0 6px 15px rgba(0,0,0,0.2);
   z-index: 9999;
   transition: 0.3s;
