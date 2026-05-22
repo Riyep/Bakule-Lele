@@ -1,9 +1,4 @@
-/* ============================
-  Template Name: Bliss
-  Author: uideck
-  Description: Digital Agency Bootstrap 5 Landing Page.
-  Version: 1.0
-=============================== */
+
 @import url("https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap");
 .counter-up-section .counter-up-content .counter-up-wrapper .single-counter .icon, .footer .widget-wrapper .footer-widget .socials li a {
   display: flex;
@@ -666,6 +661,198 @@ p {
   position: relative;
   top: -5px;
 }
+
+.order-section {
+	position: relative;
+	background: #f8fff6;
+	overflow: hidden;
+}
+
+.order-card {
+	background: #ffffff;
+	border-radius: 8px;
+	padding: 45px;
+	box-shadow: 0 20px 60px rgba(20, 84, 45, 0.12);
+	border: 1px solid rgba(64, 160, 86, 0.16);
+}
+
+.order-badge {
+	display: inline-block;
+	background: #e8f8df;
+	color: #11629f;
+	font-weight: 700;
+	padding: 8px 16px;
+	border-radius: 8px;
+	margin-bottom: 18px;
+}
+
+.order-content h2 {
+	font-size: 46px;
+	color: #11629f;
+	margin-bottom: 18px;
+}
+
+.order-content p {
+	color: #5f6f63;
+	margin-bottom: 28px;
+}
+
+.order-highlights {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 14px;
+}
+
+.order-highlights div {
+	background: #f4fbef;
+	border-radius: 8px;
+	padding: 16px;
+}
+
+.order-highlights strong,
+.order-highlights span {
+	display: block;
+}
+
+.order-highlights strong {
+	color: #1f7a94;
+	font-size: 18px;
+}
+
+.order-highlights span {
+	color: #6f7f72;
+	font-size: 14px;
+}
+
+.order-calculator {
+	background: linear-gradient(135deg, #0a3cd0, #4fbecf);
+	border-radius: 8px;
+	padding: 34px;
+	color: #ffffff;
+}
+
+.order-calculator label {
+	font-weight: 700;
+	margin-bottom: 12px;
+	display: block;
+}
+
+.kg-control {
+	display: grid;
+	grid-template-columns: 48px 1fr 48px;
+	gap: 10px;
+	align-items: center;
+	margin-bottom: 24px;
+}
+
+.kg-control button {
+	height: 52px;
+	border: 0;
+	border-radius: 8px;
+	background: #ffffff;
+	color: #48e1ee;
+	font-size: 24px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.kg-input-wrap {
+	height: 52px;
+	display: flex;
+	align-items: center;
+	background: #ffffff;
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+.kg-input-wrap input {
+	width: 100%;
+	height: 100%;
+	border: 0;
+	text-align: center;
+	color: #22353b;
+	font-size: 22px;
+	font-weight: 700;
+	outline: none;
+}
+
+.kg-input-wrap span {
+	padding-right: 16px;
+	color: #253035;
+	font-weight: 700;
+}
+
+.order-total {
+	background: rgba(255, 255, 255, 0.16);
+	border-radius: 8px;
+	padding: 18px;
+	margin-bottom: 22px;
+}
+
+.order-total span,
+.order-total strong {
+	display: block;
+}
+
+.order-total strong {
+	font-size: 34px;
+	margin-top: 4px;
+}
+
+.order-btn {
+	display: block;
+	width: 100%;
+	background: #ffffff;
+	color: #5eccea;
+	text-align: center;
+	font-weight: 800;
+	padding: 15px 20px;
+	border-radius: 8px;
+}
+
+.order-btn:hover {
+	color: #5eccea;
+}
+
+.order-calculator small {
+	display: block;
+	margin-top: 14px;
+	color: rgba(255, 255, 255, 0.86);
+}
+
+@media (max-width: 991px) {
+	.order-card {
+		padding: 32px;
+	}
+
+	.order-content {
+		margin-bottom: 32px;
+	}
+}
+
+@media (max-width: 575px) {
+	.order-card,
+	.order-calculator {
+		padding: 24px;
+	}
+
+	.order-content h2 {
+		font-size: 34px;
+	}
+
+	.order-highlights {
+		grid-template-columns: 1fr;
+	}
+
+	.kg-control {
+		grid-template-columns: 44px 1fr 34px 44px;
+	}
+
+	.order-total strong {
+		font-size: 28px;
+	}
+}
+
 /* ========== CONTACT WA FOLLOW SERVICE STYLE ========== */
 .contact-wa.single-service {
 	text-align: center;
