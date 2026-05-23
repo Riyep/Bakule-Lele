@@ -14,9 +14,10 @@
 	<link rel="stylesheet" href="assets/css/animate.css" />
 	<link rel="stylesheet" href="assets/css/main.css" />
 </head>
-
+	
 <script>
 	const lelePrice = 25000;
+	const adminWhatsApp = '6287705630047';
 
 	const paymentLinks = {
 		1: 'https://payment-gateway.com/lele-1kg',
@@ -52,13 +53,8 @@
 	function getValidKg(value) {
 		const kg = Number(value) || 1;
 
-		if (kg < 1) {
-			return 1;
-		}
-
-		if (kg > 20) {
-			return 20;
-		}
+		if (kg < 1) return 1;
+		if (kg > 20) return 20;
 
 		return kg;
 	}
@@ -84,10 +80,8 @@
 		input.value = nextKg;
 		updateLeleOrder();
 	}
-
-	updateLeleOrder();
+	document.addEventListener('DOMContentLoaded', updateLeleOrder);
 </script>
-
 
 <body>
 
