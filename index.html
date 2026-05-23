@@ -17,30 +17,6 @@
 
 <script>
 	const lelePrice = 25000;
-	const adminWhatsApp = '6287705630047';
-
-	const paymentLinks = {
-		1: 'https://payment-gateway.com/lele-1kg',
-		2: 'https://payment-gateway.com/lele-2kg',
-		3: 'https://payment-gateway.com/lele-3kg',
-		4: 'https://payment-gateway.com/lele-4kg',
-		5: 'https://payment-gateway.com/lele-5kg',
-		6: 'https://payment-gateway.com/lele-6kg',
-		7: 'https://payment-gateway.com/lele-7kg',
-		8: 'https://payment-gateway.com/lele-8kg',
-		9: 'https://payment-gateway.com/lele-9kg',
-		10: 'https://payment-gateway.com/lele-10kg',
-		11: 'https://payment-gateway.com/lele-11kg',
-		12: 'https://payment-gateway.com/lele-12kg',
-		13: 'https://payment-gateway.com/lele-13kg',
-		14: 'https://payment-gateway.com/lele-14kg',
-		15: 'https://payment-gateway.com/lele-15kg',
-		16: 'https://payment-gateway.com/lele-16kg',
-		17: 'https://payment-gateway.com/lele-17kg',
-		18: 'https://payment-gateway.com/lele-18kg',
-		19: 'https://payment-gateway.com/lele-19kg',
-		20: 'https://payment-gateway.com/lele-20kg'
-	};
 
 	function formatRupiah(value) {
 		return new Intl.NumberFormat('id-ID', {
@@ -69,7 +45,7 @@
 
 		input.value = kg;
 		total.textContent = formatRupiah(price);
-		button.href = paymentLinks[kg];
+		button.href = 'checkout.html';
 	}
 
 	function changeLeleKg(amount) {
@@ -81,9 +57,29 @@
 		updateLeleOrder();
 	}
 
-	document.addEventListener('DOMContentLoaded', updateLeleOrder);
-</script>
+	function goToCheckout(event) {
+		event.preventDefault();
 
+		const kg = getValidKg(document.getElementById('leleKg').value);
+		const total = kg * lelePrice;
+
+		const orderDraft = {
+			kg: kg,
+			total: formatRupiah(total),
+			method: 'QRIS'
+		};
+
+		localStorage.setItem('bakuleLeleDraftOrder', JSON.stringify(orderDraft));
+		window.location.href = 'checkout.html';
+	}
+
+	document.addEventListener('DOMContentLoaded', function () {
+		updateLeleOrder();
+
+		const button = document.getElementById('leleOrderBtn');
+		button.addEventListener('click', goToCheckout);
+	});
+</script>
 
 <body>
 
@@ -405,7 +401,8 @@
 	<footer class="footer">
 		<div class="container">
 			<div class="copy-right">
-				<p>©<a href="https://www.instagram.com/ri.yep" rel="nofollow" target="_blank"> Riyep </a> – All Rights Reserved.
+				<p>©<a href="https://www.instagram.com/ri.yep" rel="nofollow" target="_blank"> Riyep </a> – All Rights
+					Reserved.
 					<br>
 					<a href="policy.html">Kebijakan Privasi, Syarat dan ketentutan, Refund & Kontak</a>
 				</p>
