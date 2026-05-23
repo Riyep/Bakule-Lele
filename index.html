@@ -18,6 +18,29 @@
 <script>
 	const lelePrice = 25000;
 
+	const paymentLinks = {
+		1: 'https://payment-gateway.com/lele-1kg',
+		2: 'https://payment-gateway.com/lele-2kg',
+		3: 'https://payment-gateway.com/lele-3kg',
+		4: 'https://payment-gateway.com/lele-4kg',
+		5: 'https://payment-gateway.com/lele-5kg',
+		6: 'https://payment-gateway.com/lele-6kg',
+		7: 'https://payment-gateway.com/lele-7kg',
+		8: 'https://payment-gateway.com/lele-8kg',
+		9: 'https://payment-gateway.com/lele-9kg',
+		10: 'https://payment-gateway.com/lele-10kg',
+		11: 'https://payment-gateway.com/lele-11kg',
+		12: 'https://payment-gateway.com/lele-12kg',
+		13: 'https://payment-gateway.com/lele-13kg',
+		14: 'https://payment-gateway.com/lele-14kg',
+		15: 'https://payment-gateway.com/lele-15kg',
+		16: 'https://payment-gateway.com/lele-16kg',
+		17: 'https://payment-gateway.com/lele-17kg',
+		18: 'https://payment-gateway.com/lele-18kg',
+		19: 'https://payment-gateway.com/lele-19kg',
+		20: 'https://payment-gateway.com/lele-20kg'
+	};
+
 	function formatRupiah(value) {
 		return new Intl.NumberFormat('id-ID', {
 			style: 'currency',
@@ -26,22 +49,39 @@
 		}).format(value);
 	}
 
+	function getValidKg(value) {
+		const kg = Number(value) || 1;
+
+		if (kg < 1) {
+			return 1;
+		}
+
+		if (kg > 20) {
+			return 20;
+		}
+
+		return kg;
+	}
+
 	function updateLeleOrder() {
 		const input = document.getElementById('leleKg');
 		const total = document.getElementById('leleTotal');
 		const button = document.getElementById('leleOrderBtn');
-		const kg = Math.max(1, Number(input.value) || 1);
+
+		const kg = getValidKg(input.value);
 		const price = kg * lelePrice;
-		const formatted = formatRupiah(price);
 
 		input.value = kg;
-		total.textContent = formatted;
-		button.href = `https://wa.me/6287705630047?text=Halo%2C%20saya%20ingin%20order%20${kg}kg%20lele%20dengan%20estimasi%20total%20${encodeURIComponent(formatted)}`;
+		total.textContent = formatRupiah(price);
+		button.href = paymentLinks[kg];
 	}
 
 	function changeLeleKg(amount) {
 		const input = document.getElementById('leleKg');
-		input.value = Math.max(1, (Number(input.value) || 1) + amount);
+		const currentKg = getValidKg(input.value);
+		const nextKg = getValidKg(currentKg + amount);
+
+		input.value = nextKg;
 		updateLeleOrder();
 	}
 
@@ -310,7 +350,8 @@
 								<button type="button" onclick="changeLeleKg(-1)">-</button>
 
 								<div class="kg-input-wrap">
-									<input id="leleKg" type="number" min="1" value="1" oninput="updateLeleOrder()">
+									<input id="leleKg" type="number" min="1" max="20" value="1"
+										oninput="updateLeleOrder()">
 									<span>kg</span>
 								</div>
 
@@ -318,17 +359,15 @@
 							</div>
 
 							<div class="order-total">
-								<span>Total estimasi</span>
+								<span>Total pembayaran</span>
 								<strong id="leleTotal">Rp25.000</strong>
 							</div>
 
-							<a id="leleOrderBtn" class="order-btn"
-								href="https://wa.me/6287705630047?text=Halo%2C%20saya%20ingin%20order%201kg%20lele%20dengan%20total%20Rp25.000"
-								target="_blank">
-								Order Sekarang!
+							<a id="leleOrderBtn" class="order-btn" href="#" target="_blank">
+								Bayar Sekarang
 							</a>
 
-							<!-- <small>*Harga dihitung dengan formula 1kg lele = Rp25.000.</small> -->
+							<!-- <small>*Maksimal order 20kg. Harga 1kg lele = Rp25.000.</small> -->
 						</div>
 					</div>
 				</div>
