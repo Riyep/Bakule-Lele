@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Pembayaran Berhasil - Bakule Lele</title>
+</head>
+<body>
+	<h1>Pembayaran Berhasil</h1>
+	<p>Anda akan diarahkan ke WhatsApp untuk konfirmasi pesanan.</p>
+
+	<a id="waLink" href="#" target="_blank">Lanjut ke WhatsApp</a>
+
+	<script>
+		const phone = '6287705630047';
+		const params = new URLSearchParams(window.location.search);
+
+		const transactionCode = params.get('transaction_id') || params.get('order_id') || 'Mohon isi kode transaksi';
+		const product = params.get('product') || 'Lele';
+		const amount = params.get('amount') || 'Mohon isi nominal pembayaran';
+
+		const message = `Halo, saya sudah melakukan pembayaran.
+
+Kode Transaksi: ${transactionCode}
+Pembelian: ${product}
+Total: ${amount}`;
+
+		const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+		const waLink = document.getElementById('waLink');
+
+		waLink.href = waUrl;
+
+		setTimeout(() => {
+			window.location.href = waUrl;
+		}, 1500);
+	</script>
+</body>
+</html>
