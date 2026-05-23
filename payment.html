@@ -1,38 +1,98 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Pembayaran Berhasil - Bakule Lele</title>
-</head>
-<body>
-	<h1>Pembayaran Berhasil</h1>
-	<p>Anda akan diarahkan ke WhatsApp untuk konfirmasi pesanan.</p>
+	<title>Konfirmasi Pembayaran - Bakule Lele</title>
+	<link rel="shortcut icon" type="image/x-icon" href="assets/img/lele-icon.png">
+	<link rel="stylesheet" href="assets/css/bootstrap-5.0.0-beta2.min.css">
+	<link rel="stylesheet" href="assets/css/main.css">
 
-	<a id="waLink" href="#" target="_blank">Lanjut ke WhatsApp</a>
+	<style>
+		body {
+			background: #f7fff3;
+		}
+	</style>
+</head>
+
+<body>
+	<section class="payment-success">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-6">
+					<div class="success-card">
+						<div class="success-icon">✓</div>
+						<h1>Pembayaran Selesai</h1>
+						<p>Silakan lanjutkan ke WhatsApp untuk mengirim detail pesanan ke admin Bakule Lele.</p>
+
+						<div class="order-preview" id="orderPreview"></div>
+
+						<a id="waLink" class="wa-btn" href="#" target="_blank">
+							Kirim Konfirmasi ke WhatsApp
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 
 	<script>
-		const phone = '6287705630047';
+		const adminWhatsApp = '6287705630047';
 		const params = new URLSearchParams(window.location.search);
 
-		const transactionCode = params.get('transaction_id') || params.get('order_id') || 'Mohon isi kode transaksi';
-		const product = params.get('product') || 'Lele';
-		const amount = params.get('amount') || 'Mohon isi nominal pembayaran';
+		const gatewayTransactionId =
+			params.get('transaction_id') ||
+			params.get('order_id') ||
+			params.get('invoice_id') ||
+			params.get('reference');
 
-		const message = `Halo, saya sudah melakukan pembayaran.
+		const localTransactionId = `BL-${Date.now()}`;
+		const transactionId = gatewayTransactionId || localTransactionId;
 
-Kode Transaksi: ${transactionCode}
-Pembelian: ${product}
-Total: ${amount}`;
+		const orderData = JSON.parse(localStorage.getItem('bakuleLeleOrder')) || {
+			name: 'Belum terisi',
+			address: 'Belum terisi',
+			phone: 'Belum terisi',
+			kg: '-',
+			total: '-',
+			method: 'QRIS',
+			orderTime: new Date().toLocaleString('id-ID', {
+				dateStyle: 'full',
+				timeStyle: 'short'
+			})
+		};
 
-		const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-		const waLink = document.getElementById('waLink');
+		const message = `Halo Admin Bakule Lele, saya sudah melakukan pembayaran.
 
-		waLink.href = waUrl;
+ID Transaksi: ${transactionId}
+Tanggal/Jam Pesan: ${orderData.orderTime}
 
-		setTimeout(() => {
-			window.location.href = waUrl;
-		}, 1500);
+Nama: ${orderData.name}
+Alamat: ${orderData.address}
+No WhatsApp: ${orderData.phone}
+
+Pembelian: ${orderData.kg} kg lele
+Total Pembayaran: ${orderData.total}
+Metode Pembayaran: ${orderData.method}
+
+Mohon diproses ya.`;
+
+		const waUrl = `https://wa.me/${adminWhatsApp}?text=${encodeURIComponent(message)}`;
+
+		document.getElementById('orderPreview').innerHTML = `
+			<p><strong>ID Transaksi:</strong> ${transactionId}</p>
+			<p><strong>Tanggal/Jam:</strong> ${orderData.orderTime}</p>
+			<p><strong>Nama:</strong> ${orderData.name}</p>
+			<p><strong>Alamat:</strong> ${orderData.address}</p>
+			<p><strong>No WhatsApp:</strong> ${orderData.phone}</p>
+			<p><strong>Pembelian:</strong> ${orderData.kg} kg lele</p>
+			<p><strong>Total:</strong> ${orderData.total}</p>
+			<p><strong>Metode:</strong> ${orderData.method}</p>
+		`;
+
+		document.getElementById('waLink').href = waUrl;
 	</script>
 </body>
+
 </html>
