@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Bakule Lele</title>
+
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/lele-icon.png">
+    <link rel="stylesheet" href="assets/css/bootstrap-5.0.0-beta2.min.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+
+    <style>
+        body {
+            background: #ebfffe;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="checkout-section">
+        <div class="container">
+            <div class="row align-items-stretch">
+                <div class="col-lg-7">
+                    <div class="checkout-card">
+                        <h1>Checkout Pesanan</h1>
+                        <p>Lengkapi data berikut sebelum QRIS ditampilkan.</p>
+
+                        <form id="checkoutForm">
+                            <label for="customerName">Nama</label>
+                            <input id="customerName" type="text" placeholder="Nama lengkap" required>
+
+                            <label for="customerAddress">Alamat</label>
+                            <textarea id="customerAddress" rows="4" placeholder="Alamat lengkap pengiriman"
+                                required></textarea>
+
+                            <label for="customerPhone">No WhatsApp</label>
+                            <input id="customerPhone" type="tel" placeholder="Contoh: 087705630047" required>
+
+                            <label for="leleKg">Jumlah Lele</label>
+                            <select id="leleKg" required>
+                                <option value="1">1 kg</option>
+                                <option value="2">2 kg</option>
+                                <option value="3">3 kg</option>
+                                <option value="4">4 kg</option>
+                                <option value="5">5 kg</option>
+                                <option value="6">6 kg</option>
+                                <option value="7">7 kg</option>
+                                <option value="8">8 kg</option>
+                                <option value="9">9 kg</option>
+                                <option value="10">10 kg</option>
+                                <option value="11">11 kg</option>
+                                <option value="12">12 kg</option>
+                                <option value="13">13 kg</option>
+                                <option value="14">14 kg</option>
+                                <option value="15">15 kg</option>
+                                <option value="16">16 kg</option>
+                                <option value="17">17 kg</option>
+                                <option value="18">18 kg</option>
+                                <option value="19">19 kg</option>
+                                <option value="20">20 kg</option>
+                            </select>
+
+                            <label for="paymentMethod">Metode Pembayaran</label>
+                            <input id="paymentMethod" type="text" value="QRIS" readonly>
+
+                            <button class="checkout-btn" type="submit">Bayar dengan QRIS</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-lg-5">
+                    <div class="payment-box">
+                        <h2>Ringkasan Pembayaran</h2>
+                        <p>Harga lele Rp25.000/kg. Maksimal order 20kg.</p>
+
+                        <div class="payment-summary">
+                            <span>Total Pembayaran</span>
+                            <strong id="totalPayment">Rp25.000</strong>
+                        </div>
+
+                        <div class="payment-method-box">
+                            <h3>Metode Pembayaran</h3>
+                            <p>QRIS akan ditampilkan langsung oleh payment gateway setelah tombol bayar ditekan.</p>
+                            <strong>QRIS</strong>
+                        </div>
+
+                        <div class="qris-hint">
+                            Setelah pembayaran selesai, Anda akan diarahkan kembali ke halaman konfirmasi Bakule Lele.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        const lelePrice = 25000;
+
+        const paymentLinks = {
+            1: 'https://payment-gateway.com/lele-1kg',
+            2: 'https://payment-gateway.com/lele-2kg',
+            3: 'https://payment-gateway.com/lele-3kg',
+            4: 'https://payment-gateway.com/lele-4kg',
+            5: 'https://payment-gateway.com/lele-5kg',
+            6: 'https://payment-gateway.com/lele-6kg',
+            7: 'https://payment-gateway.com/lele-7kg',
+            8: 'https://payment-gateway.com/lele-8kg',
+            9: 'https://payment-gateway.com/lele-9kg',
+            10: 'https://payment-gateway.com/lele-10kg',
+            11: 'https://payment-gateway.com/lele-11kg',
+            12: 'https://payment-gateway.com/lele-12kg',
+            13: 'https://payment-gateway.com/lele-13kg',
+            14: 'https://payment-gateway.com/lele-14kg',
+            15: 'https://payment-gateway.com/lele-15kg',
+            16: 'https://payment-gateway.com/lele-16kg',
+            17: 'https://payment-gateway.com/lele-17kg',
+            18: 'https://payment-gateway.com/lele-18kg',
+            19: 'https://payment-gateway.com/lele-19kg',
+            20: 'https://payment-gateway.com/lele-20kg'
+        };
+
+        function formatRupiah(value) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(value);
+        }
+
+        function updateCheckoutTotal() {
+            const kg = Number(document.getElementById('leleKg').value) || 1;
+            document.getElementById('totalPayment').textContent = formatRupiah(kg * lelePrice);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const draftOrder = JSON.parse(localStorage.getItem('bakuleLeleDraftOrder')) || { kg: 1 };
+            const kgInput = document.getElementById('leleKg');
+
+            kgInput.value = draftOrder.kg;
+            updateCheckoutTotal();
+
+            kgInput.addEventListener('change', updateCheckoutTotal);
+
+            document.getElementById('checkoutForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                if (!this.checkValidity()) {
+                    this.reportValidity();
+                    return;
+                }
+
+                const kg = Number(document.getElementById('leleKg').value) || 1;
+                const total = kg * lelePrice;
+
+                const orderData = {
+                    name: document.getElementById('customerName').value,
+                    address: document.getElementById('customerAddress').value,
+                    phone: document.getElementById('customerPhone').value,
+                    kg: kg,
+                    total: formatRupiah(total),
+                    method: 'QRIS',
+                    orderTime: new Date().toLocaleString('id-ID', {
+                        dateStyle: 'full',
+                        timeStyle: 'short'
+                    })
+                };
+
+                localStorage.setItem('bakuleLeleOrder', JSON.stringify(orderData));
+                window.location.href = paymentLinks[kg];
+            });
+        });
+    </script>
+</body>
+
+</html>
